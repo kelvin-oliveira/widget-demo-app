@@ -11,7 +11,6 @@ export function useChat() {
   const currentChatId = useChatStore((s) => s.currentChatId);
   const getCurrentChat = useChatStore((s) => s.getCurrentChat);
   const isAuthenticated = useChatStore((s) => s.isAuthenticated);
-  const setAuthRequested = useChatStore((s) => s.setAuthRequested);
   const setUser = useChatStore((s) => s.setUser);
   const updateChatMessages = useChatStore((s) => s.updateChatMessages);
   const user = useChatStore((s) => s.user);
@@ -34,10 +33,6 @@ export function useChat() {
     onFinish: ({ content }) => {
       if (isAuthenticated()) return;
 
-      const isRequestingAuth = content.includes("name for authentication");
-
-      if (isRequestingAuth) setAuthRequested(true);
-
       const authSuccessMatch = content.match(
         /Welcome (.+?)! You are now authenticated\./,
       );
@@ -46,16 +41,7 @@ export function useChat() {
         const extractedName = authSuccessMatch[1].trim();
         if (extractedName.toLowerCase() !== "kelvin") {
           setUser(extractedName);
-          setAuthRequested(false);
         }
-      }
-
-      // Handle Kelvin rejection
-      const isKelvinRejected =
-        content.includes("Kelvin") && content.includes("system limitation");
-
-      if (isKelvinRejected) {
-        setAuthRequested(true);
       }
     },
   });

@@ -19,7 +19,6 @@ const generateChatTitle = (messages: Message[]): string => {
 
 interface ChatState {
   activeTab: ActiveTab;
-  authRequested: boolean;
   chats: Chat[];
   currentChatId: null | string;
   user: null | User;
@@ -32,7 +31,6 @@ interface ChatActions {
   isAuthenticated: () => boolean;
   reset: () => void;
   setActiveTab: (tab: ActiveTab) => void;
-  setAuthRequested: (requested: boolean) => void;
   setCurrentChat: (chatId: null | string) => void;
   setUser: (name: string) => void;
   updateChatMessages: (chatId: string, messages: Message[]) => void;
@@ -40,7 +38,6 @@ interface ChatActions {
 
 const initialState: ChatState = {
   activeTab: "history",
-  authRequested: false,
   chats: [],
   currentChatId: null,
   user: null,
@@ -98,9 +95,6 @@ export const useChatStore = create<ChatActions & ChatState>()(
       },
       setActiveTab: (tab: ActiveTab) => {
         set({ activeTab: tab });
-      },
-      setAuthRequested: (requested: boolean) => {
-        set({ authRequested: requested });
       },
       setCurrentChat: (chatId: null | string) => {
         set({
