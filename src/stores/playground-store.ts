@@ -28,7 +28,7 @@ interface PlaygroundActions {
   setTitle: (title: string) => void;
 }
 
-const initialState: PlaygroundState = {
+export const initialState: PlaygroundState = {
   brand: {
     name: "EloquentAI",
     websiteUrl: "https://www.eloquentai.co/",

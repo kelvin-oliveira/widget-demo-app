@@ -15,8 +15,8 @@ importers:
         specifier: ^1.2.12
         version: 1.2.12(react@19.1.0)(zod@3.25.67)
       '@k12kelvin/chat-widget':
-        specifier: ^0.1.0
-        version: 0.1.0(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))(zod@3.25.67)
+        specifier: ^0.1.1
+        version: 0.1.1(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))(zod@3.25.67)
       '@radix-ui/react-label':
         specifier: ^2.1.7
         version: 2.1.7(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -404,8 +404,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@k12kelvin/chat-widget@0.1.0':
-    resolution: {integrity: sha512-DZqOnrfBFXso62w77ixaZoFQbcmvD1F4dxfcdt6fASbcA+ePa0R5IOIPZp8OS2Z78HLs9jZcY6i11WQohJk0QA==}
+  '@k12kelvin/chat-widget@0.1.1':
+    resolution: {integrity: sha512-8wNmQCZSA+pD+9KAmVQ2eE8fndoo6f+L59mKOSxraG2rC1Hkb+WVvT4bkCpQaEIg1zKvdlcXfZnoAXt8GOvTNQ==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       react: '>=18'
@@ -3141,7 +3141,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@k12kelvin/chat-widget@0.1.0(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))(zod@3.25.67)':
+  '@k12kelvin/chat-widget@0.1.1(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))(zod@3.25.67)':
     dependencies:
       '@ai-sdk/react': 1.2.12(react@19.1.0)(zod@3.25.67)
       '@radix-ui/react-scroll-area': 1.2.9(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)

@@ -2,6 +2,7 @@
 
 import { Position, Status, Theme, Widget } from "@k12kelvin/chat-widget";
 import { Copy, Monitor, RefreshCw, Settings, Sparkles } from "lucide-react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -24,7 +25,7 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { themes } from "@/constants/themes";
-import { usePlaygroundStore } from "@/stores/playground-store";
+import { initialState, usePlaygroundStore } from "@/stores/playground-store";
 
 export default function WidgetPlayground() {
   // State for customization
@@ -51,32 +52,121 @@ export default function WidgetPlayground() {
   const setThemeOption = usePlaygroundStore((s) => s.setThemeOption);
   const setTitle = usePlaygroundStore((s) => s.setTitle);
 
-  const generateCode = () => {
-    const configStr = JSON.stringify(
-      {
-        brand,
-        chatContext,
-        position,
-        showBrand,
-        status,
-        suggestedQuestions,
-        theme,
-        title,
-      },
-      null,
-      2,
-    );
-    return `import { Widget } from './widget';
+  // --- Code Generation Utilities ---
+  // Deep comparison helper
+  function isEqual(a: unknown, b: unknown): boolean {
+    if (typeof a !== typeof b) return false;
+    if (typeof a !== "object" || a === null || b === null) return a === b;
+    if (a === undefined || b === undefined) return false;
+    if (Array.isArray(a) && Array.isArray(b)) {
+      if (a.length !== b.length) return false;
+      return a.every((v, i) => isEqual(v, b[i]));
+    }
+    if (typeof a === "object" && typeof b === "object") {
+      const aKeys = Object.keys(a as object);
+      const bKeys = Object.keys(b as object);
+      if (aKeys.length !== bKeys.length) return false;
+      return aKeys.every((k) =>
+        isEqual(
+          (a as Record<string, unknown>)[k],
+          (b as Record<string, unknown>)[k],
+        ),
+      );
+    }
+    return false;
+  }
 
-const props = ${configStr};
+  // Only include props that differ from initialState
+  function getChangedConfig() {
+    const changed: Record<string, unknown> = {};
+    if (showBrand !== initialState.showBrand) changed.showBrand = showBrand;
+    if (showBrand) {
+      if (!isEqual(brand, initialState.brand)) changed.brand = brand;
+    }
+    if (chatContext !== initialState.chatContext)
+      changed.chatContext = chatContext;
+    if (position !== initialState.position) changed.position = position;
+    if (status !== initialState.status) changed.status = status;
+    if (!isEqual(suggestedQuestions, initialState.suggestedQuestions))
+      changed.suggestedQuestions = suggestedQuestions;
+    if (title !== initialState.title) changed.title = title;
+    // Theme: only include if not default
+    const defaultTheme =
+      themes[initialState.themeOption as keyof typeof themes];
+    if (
+      themeOption !== initialState.themeOption ||
+      !isEqual(theme, defaultTheme)
+    ) {
+      changed.theme = theme;
+    }
+    return changed;
+  }
 
-export function CustomWidget() {
-  return <Widget {...props} />
-}`;
-  };
+  const config = getChangedConfig();
+
+  function formatPropValue(value: unknown, indent: number = 6): string {
+    const space = " ".repeat(indent);
+    if (typeof value === "string") return `"${value}"`;
+    if (typeof value === "boolean" || typeof value === "number")
+      return `{${value}}`;
+    if (Array.isArray(value) || typeof value === "object") {
+      // Format with JSON.stringify and adjust indentation
+      const json = JSON.stringify(value, null, 2);
+      const indented = json
+        .split("\n")
+        .map((line, idx) => (idx === 0 ? line : space + line))
+        .join("\n");
+      return `{${indented}}`;
+    }
+    return `{${String(value)}}`;
+  }
+
+  function generateReactCode() {
+    const propEntries = Object.entries(config);
+    const propsString = propEntries
+      .map(([k, v]) => `      ${k}=${formatPropValue(v)}`)
+      .join("\n");
+    return `import { Widget } from "@k12kelvin/chat-widget";
+
+export default function CustomWidget() {
+  return (
+    <Widget${propEntries.length === 0 ? " />" : `\n${propsString}\n    />`}\n  );\n}`;
+  }
+
+  function generateHtmlExampleCode() {
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chat Widget Example</title>
+</head>
+<body>
+  <script>
+    window.chatWidgetSettings = ${JSON.stringify(config, null, 2)};
+  </script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@k12kelvin/chat-widget@0.1.0/dist/iife/chat-widget.iife.js"></script>
+</body>
+</html>`;
+  }
+
+  // --- Tab State ---
+  const [codeTab, setCodeTab] = useState("react");
+
+  const codeTabs = [
+    { code: generateReactCode(), key: "react", label: "React Component" },
+    {
+      code: generateHtmlExampleCode(),
+      key: "html",
+      label: "HTML Example Page",
+    },
+  ];
+
+  const currentCode = codeTabs.find((t) => t.key === codeTab)?.code || "";
 
   const handleCopyCode = () => {
-    navigator.clipboard.writeText(generateCode());
+    navigator.clipboard.writeText(currentCode);
   };
 
   return (
@@ -304,10 +394,42 @@ export function CustomWidget() {
                   </div>
                 </TabsContent>
                 <TabsContent className="mt-6 space-y-4" value="code">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex flex-wrap gap-2">
+                      {codeTabs.map((tab) => (
+                        <Button
+                          key={tab.key}
+                          onClick={() => setCodeTab(tab.key)}
+                          size="sm"
+                          variant={tab.key === codeTab ? "default" : "outline"}
+                        >
+                          {tab.label}
+                        </Button>
+                      ))}
+                    </div>
+                    <div className="mt-2 flex items-center gap-2">
+                      <a
+                        className="text-xs text-blue-600 underline"
+                        href="https://www.npmjs.com/package/@k12kelvin/chat-widget"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        @k12kelvin/chat-widget docs ↗
+                      </a>
+                      <a
+                        className="text-xs text-blue-600 underline"
+                        href="https://github.com/kelvin-oliveira/widget-demo-app"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        Playground Source ↗
+                      </a>
+                    </div>
+                  </div>
                   <ScrollArea className="bg-muted/50 h-[400px] w-full rounded-lg border">
-                    <pre className="p-4 text-sm">
+                    <pre className="overflow-x-auto p-4 text-sm">
                       <code className="text-muted-foreground">
-                        {generateCode()}
+                        {currentCode}
                       </code>
                     </pre>
                   </ScrollArea>
