@@ -42,13 +42,13 @@ export function Chat() {
   return (
     <div
       className={cn(
-        "fixed z-50 flex flex-col items-end space-y-4 p-8",
+        "fixed z-50 flex flex-col space-y-4 p-4 sm:p-6 md:p-8",
         getPositionClasses(position),
       )}
     >
       {isOpen && (
         <Card
-          className="animate-in slide-in-from-bottom-2 fade-in-0 flex h-[800px] w-[480px] flex-col shadow-2xl duration-200"
+          className="animate-in slide-in-from-bottom-2 fade-in-0 flex h-[calc(100vh-6rem)] w-full max-w-full flex-col shadow-2xl duration-200 sm:h-[calc(100vh-10rem)] sm:w-[480px]"
           ref={widgetRef}
           style={{ backgroundColor: theme.cardBackground }}
         >
@@ -83,9 +83,9 @@ export function Chat() {
 function getPositionClasses(position: Position): string {
   switch (position) {
     case "bottom-left":
-      return `bottom-0 left-0 items-start`;
+      return "bottom-0 left-0 items-start";
     case "bottom-right":
     default:
-      return `bottom-0 right-0`;
+      return "bottom-0 right-0 items-end";
   }
 }

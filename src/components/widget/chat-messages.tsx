@@ -59,10 +59,22 @@ export function ChatMessages({
         subtitle="I'm here to help you with any questions or tasks"
         title={`Welcome to ${title}`}
       >
-        <div className="grid w-full max-w-xs grid-cols-1 gap-2">
+        <div
+          className={cn(
+            "grid w-full gap-2",
+            // Mobile: Single column, full width
+            "grid-cols-1 max-w-full px-4",
+            // Tablet and up: Original layout
+            "sm:max-w-xs sm:px-0",
+          )}
+        >
           {suggestedQuestions.map((suggestion, index) => (
             <Button
-              className="h-12 justify-start text-sm transition-all"
+              className={cn(
+                "justify-start text-sm transition-all",
+                // Mobile: Smaller height, better touch targets
+                "h-10 sm:h-12",
+              )}
               disabled={status !== "online"}
               key={index}
               onClick={() => {
@@ -77,7 +89,7 @@ export function ChatMessages({
               }}
               variant="outline"
             >
-              {suggestion}
+              <span className="break-words text-left">{suggestion}</span>
             </Button>
           ))}
         </div>
@@ -86,12 +98,12 @@ export function ChatMessages({
   }
 
   return (
-    <ScrollArea className="flex-1 px-4 py-2">
+    <ScrollArea className="flex-1 p-2 sm:px-4">
       <WelcomeSection
         subtitle="Ask me anything"
         title={`${title} responds instantly`}
       />
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {messages.map((message) => (
           <div
             className={cn("flex", message.role === "user" && "justify-end")}
@@ -99,7 +111,7 @@ export function ChatMessages({
           >
             <div
               className={cn(
-                "flex max-w-[90%] space-x-2 items-end",
+                "flex space-x-2 items-end max-w-[95%] sm:max-w-[90%]",
                 message.role === "user" && "flex-row-reverse space-x-reverse",
               )}
             >
@@ -110,7 +122,7 @@ export function ChatMessages({
               )}
               <div
                 className={cn(
-                  "rounded-2xl px-4 py-2 prose break-words",
+                  "rounded-2xl prose break-words px-3 py-2 sm:px-4 text-sm sm:text-base",
                   message.role === "user"
                     ? "rounded-br-none"
                     : "rounded-bl-none",
@@ -138,7 +150,7 @@ export function ChatMessages({
                 <EloquentLogo rounded size="sm" />
               </div>
               <div
-                className="rounded-2xl rounded-bl-none px-4 py-2"
+                className="rounded-2xl rounded-bl-none px-3 py-2 sm:px-4"
                 style={{
                   backgroundColor: theme.assistantMessageBackground,
                 }}
