@@ -1,5 +1,6 @@
 "use client";
 
+import { Position, Status, Theme, Widget } from "@k12kelvin/chat-widget";
 import { Copy, Monitor, RefreshCw, Settings, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,10 +23,8 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { Widget } from "@/components/widget/widget";
 import { themes } from "@/constants/themes";
 import { usePlaygroundStore } from "@/stores/playground-store";
-import { Position, Status, Theme } from "@/types/widget";
 
 export default function WidgetPlayground() {
   // State for customization

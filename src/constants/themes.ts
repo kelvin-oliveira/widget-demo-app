@@ -1,4 +1,4 @@
-import { Theme } from "@/types/widget";
+import { Theme } from "@k12kelvin/chat-widget";
 
 const eloquentTheme: Theme = {
   assistantMessageBackground: "#F1F5F9",

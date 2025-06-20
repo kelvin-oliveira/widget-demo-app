@@ -1,7 +1,7 @@
+import { Brand, Position, Status } from "@k12kelvin/chat-widget";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { themes } from "@/constants/themes";
-import { Brand, Position, Status } from "@/types/widget";
 
 type ThemeOption = keyof typeof themes;
 

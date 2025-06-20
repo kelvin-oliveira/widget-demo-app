@@ -14,6 +14,9 @@ importers:
       '@ai-sdk/react':
         specifier: ^1.2.12
         version: 1.2.12(react@19.1.0)(zod@3.25.67)
+      '@k12kelvin/chat-widget':
+        specifier: ^0.1.0
+        version: 0.1.0(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))(zod@3.25.67)
       '@radix-ui/react-label':
         specifier: ^2.1.7
         version: 2.1.7(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -400,6 +403,13 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@k12kelvin/chat-widget@0.1.0':
+    resolution: {integrity: sha512-DZqOnrfBFXso62w77ixaZoFQbcmvD1F4dxfcdt6fASbcA+ePa0R5IOIPZp8OS2Z78HLs9jZcY6i11WQohJk0QA==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
 
   '@napi-rs/wasm-runtime@0.2.11':
     resolution: {integrity: sha512-9DPkXtvHydrcOsopiYpUgPHpmj0HWZKMUnL2dZqpvC42lsratuBG06V5ipyno0fUek5VlFsNQ+AcFATSrJXgMA==}
@@ -3130,6 +3140,27 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@k12kelvin/chat-widget@0.1.0(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))(zod@3.25.67)':
+    dependencies:
+      '@ai-sdk/react': 1.2.12(react@19.1.0)(zod@3.25.67)
+      '@radix-ui/react-scroll-area': 1.2.9(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@radix-ui/react-slot': 1.2.3(@types/react@19.1.8)(react@19.1.0)
+      class-variance-authority: 0.7.1
+      clsx: 2.1.1
+      lucide-react: 0.518.0(react@19.1.0)
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+      react-markdown: 10.1.0(@types/react@19.1.8)(react@19.1.0)
+      tailwind-merge: 3.3.1
+      zustand: 5.0.5(@types/react@19.1.8)(react@19.1.0)(use-sync-external-store@1.5.0(react@19.1.0))
+    transitivePeerDependencies:
+      - '@types/react'
+      - '@types/react-dom'
+      - immer
+      - supports-color
+      - use-sync-external-store
+      - zod
 
   '@napi-rs/wasm-runtime@0.2.11':
     dependencies:
